@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vagas-api
+  namespace: demo
+  labels: { app: vagas-api }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: vagas-api }
+  template:
+    metadata:
+      labels: { app: vagas-api }
+    spec:
+      containers:
+        - name: vagas-api
+          image: vagas-api:dev
+          imagePullPolicy: IfNotPresent   # usa a imagem carregada via `kind load`
+          ports:
+            - name: http
+              containerPort: 3000
+          readinessProbe:
+            httpGet: { path: /healthz, port: http }
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /healthz, port: http }
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests: { cpu: 50m, memory: 64Mi }
+            limits: { cpu: 250m, memory: 128Mi }

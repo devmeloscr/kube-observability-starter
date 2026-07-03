@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Env files (contêm URLs de webhook / segredos locais)
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# macOS
+.DS_Store
+
+# Editores
+.vscode/
+.idea/

@@ -1,0 +1,22 @@
+# Configuração mínima de cluster local Kubernetes via kind.
+# Um control-plane + um worker. Mapeia as portas 80/443 do host para o
+# nó, prontas para um Ingress controller no futuro.
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: vagas-metricas
+nodes:
+  - role: control-plane
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "ingress-ready=true"
+    extraPortMappings:
+      - containerPort: 80
+        hostPort: 80
+        protocol: TCP
+      - containerPort: 443
+        hostPort: 443
+        protocol: TCP
+  - role: worker

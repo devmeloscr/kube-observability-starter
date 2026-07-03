@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vagas-api
+  namespace: demo
+  labels: { app: vagas-api }
+spec:
+  selector: { app: vagas-api }
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
